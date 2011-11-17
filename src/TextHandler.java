@@ -139,7 +139,7 @@ public class TextHandler {
     public static void writeBatFile(String outfileName, List<String> filenames) throws IOException {
         PrintWriter printWriter = new PrintWriter(new File(outfileName));
         String font = findFont(configFileName);
-        String script1 = "convert -gravity Center -density 100 -pointsize 48 -background #00000000 -fill ";
+        String script1 = "convert -gravity Center -density 100 -background #00000000 -fill ";
         String script2;
         if(font != "") {
             script2 = " -font " + font + " -size  ";

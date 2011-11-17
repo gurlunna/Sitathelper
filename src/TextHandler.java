@@ -139,7 +139,7 @@ public class TextHandler {
     public static void writeBatFile(String outfileName, List<String> filenames) throws IOException {
         PrintWriter printWriter = new PrintWriter(new File(outfileName));
         String font = findFont(configFileName);
-        String script1 = "convert -gravity Center -density 100 -pointsize 32 -background #00000000 -fill ";
+        String script1 = "convert -gravity Center -density 100 -pointsize 48 -background #00000000 -fill ";
         String script2;
         if(font != "") {
             script2 = " -font " + font + " -size  ";
@@ -147,14 +147,22 @@ public class TextHandler {
         else
             script2 = " -size ";
         System.out.println(script2);
-        String script3 = "composite -gravity Center label1.gif ";
+        String script3 = "convert label1.gif -rotate 90 label1_90.gif";
+        String script4 = "convert label1.gif -rotate 180 label1_180.gif";
+        String script5 = "convert label1.gif -rotate -90 label1_-90.gif";
+        String script6 = "montage  null: label1.gif null: label1_-90.gif null: label1_90.gif null: label1_180.gif null: -tile 3x3  -geometry +2+2 -background #00000000 test.gif";
+        String script7 = "composite -gravity Center test.gif -geometry 1024x768 ";
         String outputFolder = findOutputFolder(configFileName);
         printWriter.println("chcp 65001 &");
         for (String filename : filenames) {
             String[] tmp = filename.split("[.]");
             String jpgFileName = tmp[0] + ".jpg";
             printWriter.println(script1 + findTextColor(configFileName) + script2 + findSize(configFileName) + " label:@" + findInputFolder(configFileName) + "/" + filename + " label1.gif");
-            printWriter.println(script3 + findBackgroundColor(configFileName) + " " + outputFolder + "/" + jpgFileName);
+            printWriter.println(script3);
+            printWriter.println(script4);
+            printWriter.println(script5);
+            printWriter.println(script6);
+            printWriter.println(script7 + findBackgroundColor(configFileName) + " " + outputFolder + "/" + jpgFileName);
         }
         printWriter.println("& chcp 850");
         printWriter.close();

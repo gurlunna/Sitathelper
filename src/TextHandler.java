@@ -164,6 +164,7 @@ public class TextHandler {
             printWriter.println(script6);
             printWriter.println(script7 + findBackgroundColor(configFileName) + " " + outputFolder + "/" + jpgFileName);
         }
+        printWriter.println("@DEL *.gif");
         printWriter.println("& chcp 850");
         printWriter.close();
     }

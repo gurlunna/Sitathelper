@@ -1,0 +1,6 @@
+Inputfolder:Innfiler
+Outputfolder:TilTemaparken
+Background:bakgrunn_black.jpg
+Textcolor:White
+Size:1024x768
+Font:C:\Windows\Fonts\alternategothic2_bt.ttf

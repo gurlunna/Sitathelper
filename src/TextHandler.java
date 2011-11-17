@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class TextHandler {
 
-    private static String configFileName = "config.txt";
+    private static String configFileName = "temaparkConfig.txt";
     private static String defaultSize = "800x600";
 
     public static void main(String[] args) throws IOException {
@@ -94,6 +94,29 @@ public class TextHandler {
         return textColor;
     }
 
+    public static String findFont(String configFile) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(configFile));
+        String tmp;
+        String font = "";
+        while ((tmp = reader.readLine()) != null) {
+            String[] params = tmp.split(":");
+            if (params.length > 2) {
+                if (params[0].equals("Font")) {
+                    for (int i = 1; i < params.length -1; i++) {
+                        font = params[i];
+                    }
+                    font = font + ":" + params[params.length-1];
+                }
+            }
+            else if(params.length == 2) {
+                if(params[0].equals("Font")) {
+                    font = params[1];
+                }
+            }
+        }
+        return font;
+    }
+
     public static List<String> findAllTextFilesInFolder(String path) {
         String files;
         File folder = new File(path);
@@ -115,8 +138,15 @@ public class TextHandler {
 
     public static void writeBatFile(String outfileName, List<String> filenames) throws IOException {
         PrintWriter printWriter = new PrintWriter(new File(outfileName));
-        String script1 = "convert -gravity Center -density 100 -background #00000000 -fill ";
-        String script2 = " -font \"C:\\Windows\\Fonts\\alternategothic2_bt.ttf\" -size  ";
+        String font = findFont(configFileName);
+        String script1 = "convert -gravity Center -density 100 -pointsize 32 -background #00000000 -fill ";
+        String script2;
+        if(font != "") {
+            script2 = " -font " + font + " -size  ";
+        }
+        else
+            script2 = " -size ";
+        System.out.println(script2);
         String script3 = "composite -gravity Center label1.gif ";
         String outputFolder = findOutputFolder(configFileName);
         printWriter.println("chcp 65001 &");
@@ -124,7 +154,7 @@ public class TextHandler {
             String[] tmp = filename.split("[.]");
             String jpgFileName = tmp[0] + ".jpg";
             printWriter.println(script1 + findTextColor(configFileName) + script2 + findSize(configFileName) + " label:@" + findInputFolder(configFileName) + "/" + filename + " label1.gif");
-            printWriter.println(script3  + findBackgroundColor(configFileName) + " " + outputFolder + "/" + jpgFileName);
+            printWriter.println(script3 + findBackgroundColor(configFileName) + " " + outputFolder + "/" + jpgFileName);
         }
         printWriter.println("& chcp 850");
         printWriter.close();

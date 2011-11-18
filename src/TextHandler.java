@@ -150,7 +150,7 @@ public class TextHandler {
         String script3 = "convert label1.gif -rotate 90 label1_90.gif";
         String script4 = "convert label1.gif -rotate 180 label1_180.gif";
         String script5 = "convert label1.gif -rotate -90 label1_-90.gif";
-        String script6 = "montage  null: label1.gif null: label1_-90.gif null: label1_90.gif null: label1_180.gif null: -tile 3x3  -geometry +2+2 -background #00000000 test.gif";
+        String script6 = "montage  null: label1.gif null: label1_-90.gif null: label1_90.gif null: label1_180.gif null: -tile 3x3  -geometry +1+1 -background #00000000 test.gif";
         String script7 = "composite -gravity Center test.gif -geometry 1024x768 ";
         String outputFolder = findOutputFolder(configFileName);
         printWriter.println("chcp 65001 &");
